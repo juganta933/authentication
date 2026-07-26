@@ -26,6 +26,12 @@ export async function POST(request) {
         { status: 400 },
       );
     }
+    if(birthYear.length!=4){
+      return NextResponse.json({
+        success:false,message:"Enter a Valid Birth Year"
+      },
+    {status:400})
+    }
     if (password.length < 8) {
       return NextResponse.json(
         { success: false, message: "Password must be at least 8 characters" },
@@ -40,7 +46,7 @@ export async function POST(request) {
       );
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = User.create({
+    const newUser = await User.create({
       firstName,
       lastName,
       birthYear,
